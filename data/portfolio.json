@@ -1,0 +1,82 @@
+[
+  {
+    "symbol": "TCS",
+    "name": "Tata Consultancy Services",
+    "purchasePrice": 3200,
+    "quantity": 10,
+    "exchange": "NSE",
+    "sector": "Technology"
+  },
+   {
+    "symbol": "INFY",
+    "name": "Infosys",
+    "purchasePrice": 1450,
+    "quantity": 20,
+    "exchange": "NSE",
+    "sector": "Technology"
+  },
+  {
+    "symbol": "HDFCBANK",
+    "name": "HDFC Bank",
+    "purchasePrice": 1500,
+    "quantity": 15,
+    "exchange": "BSE",
+    "sector": "Financials"
+  },
+  {
+    "symbol": "ICICIBANK",
+    "name": "ICICI Bank",
+    "purchasePrice": 900,
+    "quantity": 25,
+    "exchange": "NSE",
+    "sector": "Financials"
+  },
+  {
+    "symbol": "RELIANCE",
+    "name": "Reliance Industries",
+    "purchasePrice": 2400,
+    "quantity": 8,
+    "exchange": "NSE",
+    "sector": "Energy"
+  },
+  {
+    "symbol": "HINDUNILVR",
+    "name": "Hindustan Unilever",
+    "purchasePrice": 2500,
+    "quantity": 6,
+    "exchange": "NSE",
+    "sector": "FMCG"
+  },
+  {
+    "symbol": "ITC",
+    "name": "ITC Limited",
+    "purchasePrice": 420,
+    "quantity": 40,
+    "exchange": "NSE",
+    "sector": "FMCG"
+  },
+  {
+    "symbol": "SUNPHARMA",
+    "name": "Sun Pharmaceutical Industries",
+    "purchasePrice": 1100,
+    "quantity": 12,
+    "exchange": "NSE",
+    "sector": "Pharma"
+  },
+  {
+    "symbol": "BHARTIARTL",
+    "name": "Bharti Airtel",
+    "purchasePrice": 850,
+    "quantity": 18,
+    "exchange": "NSE",
+    "sector": "Telecom"
+  },
+  {
+    "symbol": "LT",
+    "name": "Larsen & Toubro",
+    "purchasePrice": 2900,
+    "quantity": 5,
+    "exchange": "NSE",
+    "sector": "Infrastructure"
+  }
+]
