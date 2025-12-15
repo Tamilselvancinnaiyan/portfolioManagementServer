@@ -1,9 +1,16 @@
 const portfolio = require('../data/portfolio.json');
 const { getStockData } = require('./yahoo.service');
 const cache = require('../cache/memoryCache');
-const pLimit = require("p-limit").default; 
 
-const limit = pLimit(2);
+let limit; 
+
+async function getLimit() {
+  if (!limit) {
+    const pLimit = (await import('p-limit')).default;
+    limit = pLimit(2); 
+  }
+  return limit;
+}
 
 async function getPortfolioData() {
   try {
@@ -15,9 +22,11 @@ async function getPortfolioData() {
       0
     );
 
+    const limiter = await getLimit();
+
     const enriched = await Promise.all(
       portfolio.map((stock) =>
-        limit(async () => {
+        limiter(async () => {
           const investment = stock.purchasePrice * stock.quantity;
 
           const {
