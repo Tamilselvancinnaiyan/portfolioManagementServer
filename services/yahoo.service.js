@@ -18,7 +18,6 @@ async function getStockData(symbol) {
   const base = baseSymbol(symbol);
 
   try {
-    console.log(`\n🔍 Processing ${symbol} (${normalized})`);
 
     const quote = await yahooFinance.quote(normalized);
     if (!quote) return null;

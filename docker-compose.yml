@@ -1,0 +1,72 @@
+name: vestora
+x-app: &app
+  build:
+    context: .
+    target: runtime
+  environment: &environment
+    NODE_ENV: development
+    MARKET_DATA_PROVIDER: ${MARKET_DATA_PROVIDER:-yahoo}
+    PORT: 3001
+    DATABASE_URL: postgresql://vestora:vestora_local@postgres:5432/vestora?schema=public
+    REDIS_HOST: redis
+    REDIS_PORT: 6379
+    JWT_SECRET: ${JWT_SECRET:-local-access-secret-replace-with-32-random-characters}
+    JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET:-local-refresh-secret-replace-with-different-32-characters}
+    CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3000}
+  init: true
+  restart: unless-stopped
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: vestora
+      POSTGRES_USER: vestora
+      POSTGRES_PASSWORD: vestora_local
+    ports: ["127.0.0.1:5432:5432"]
+    volumes: ["postgres_data:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U vestora -d vestora"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--appendonly", "yes", "--maxmemory-policy", "noeviction"]
+    ports: ["127.0.0.1:6379:6379"]
+    volumes: ["redis_data:/data"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+  migrate:
+    <<: *app
+    build:
+      context: .
+      target: build
+    restart: "no"
+    command: ["sh", "-c", "npx prisma migrate deploy && node dist/prisma/seed.js"]
+    environment:
+      <<: *environment
+      DEMO_PASSWORD: ${DEMO_PASSWORD:-VestoraDemo123!}
+    depends_on:
+      postgres: {condition: service_healthy}
+      redis: {condition: service_healthy}
+  api:
+    <<: *app
+    ports: ["127.0.0.1:3001:3001"]
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:3001/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+  worker:
+    <<: *app
+    command: ["node", "dist/src/worker.js"]
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+volumes:
+  postgres_data:
+  redis_data:

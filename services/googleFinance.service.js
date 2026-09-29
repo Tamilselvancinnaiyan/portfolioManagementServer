@@ -44,7 +44,7 @@ async function getGoogleFinanceDataWithPuppeteer(symbol, exchange = "NSE") {
     const page = await browser.newPage();
     await page.goto(
       `https://www.google.com/finance/quote/${symbol}:${exchange}`,
-      { waitUntil: "networkidle0", timeout: 30000 }
+      { waitUntil: "networkidle0", timeout: 100000 }
     );
 
     const peRatio = await page.evaluate(() => {

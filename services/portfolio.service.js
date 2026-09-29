@@ -3,8 +3,8 @@ const { getStockData } = require("./yahoo.service");
 const cache = require("../cache/memoryCache");
 
 async function getPortfolioData() {
-  const cached = cache.get("portfolio");
-  if (cached) return cached;
+  // const cached = cache.get("portfolio");
+  // if (cached) return cached;
 
   const totalInvestment = portfolio.reduce(
     (sum, s) => sum + s.purchasePrice * s.quantity,
@@ -39,7 +39,7 @@ async function getPortfolioData() {
     ),
   }));
 
-  cache.set("portfolio", result);
+  // cache.set("portfolio", result, 60 * 1000);
   return result;
 }
 

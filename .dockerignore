@@ -1,0 +1,13 @@
+node_modules
+dist
+.git
+.env
+.env.*
+coverage
+cache
+data
+*.png
+services
+routes
+local.js
+server.js
